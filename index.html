@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>たいがの日記</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: #f5f5f5;
+      padding: 20px;
+      border-right: 1px solid #ddd;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .entry {
+      margin-bottom: 50px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 30px;
+    }
+
+    .date {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* ウェルカムページ */
+    #welcome {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    /* フェードインアニメーション */
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>アーカイブ</h2>
+    <ul id="archive-list"></ul>
+
+    <h2>カテゴリ</h2>
+    <ul id="category-list"></ul>
+  </div>
+
+  <div class="content">
+
+    <!-- 最初に表示されるウェルカムページ -->
+    <div id="welcome">
+      <h1>たいがの日記へようこそ</h1>
+      <p>左のアーカイブやカテゴリから日記を選んでね。
+        コードはすべて自分で書きました。
+      </p>
+    </div>
+
+    <!-- 日記一覧（最初は非表示）-->
+    <div id="entries" style="display:none;">
+
+      <div class="entry" id="20260622" data-category="日常">
+        <div class="date">2026/06/22</div>
+        <p>今日は日記サイトを作り始めた。急に作ってみたい欲が出てきてしまって、作ろうと思った。
+           本当にコード手抜きすぎるけど、まぁいいや。やっぱり日記をつけることって大切だからね。
+           コードも自分で書いてるから勉強にもなる。最高じゃん。
+           これからはここに日記を書いていこうと思う。日記っていうのは、書くことによって自分の気持ちを整理できるし、後で振り返ることもできるからね。
+           最高だよ。
+        </p>
+      </div>
+
+       
+
+    </div>
+
+  </div>
+
+  <script>
+    const archiveList = document.getElementById("archive-list");
+    const categoryList = document.getElementById("category-list");
+    const entriesContainer = document.getElementById("entries");
+    const welcome = document.getElementById("welcome");
+    const entries = document.querySelectorAll(".entry");
+
+    // アーカイブ自動生成
+    entries.forEach(entry => {
+      const id = entry.id;
+      const dateText = entry.querySelector(".date").textContent;
+
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+
+      a.textContent = dateText;
+      a.onclick = () => showEntry(id);
+
+      li.appendChild(a);
+      archiveList.appendChild(li);
+    });
+
+    // カテゴリ一覧自動生成
+    const categories = new Set();
+    entries.forEach(entry => categories.add(entry.dataset.category));
+
+    categories.forEach(cat => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+
+      a.textContent = cat;
+      a.onclick = () => filterByCategory(cat);
+
+      li.appendChild(a);
+      categoryList.appendChild(li);
+    });
+
+    // 日記1つだけ表示（フェードインつき）
+    function showEntry(id) {
+      welcome.style.display = "none";
+      entriesContainer.style.display = "block";
+
+      entries.forEach(entry => {
+        if (entry.id === id) {
+          entry.style.display = "block";
+          entry.classList.add("fade-in");
+        } else {
+          entry.style.display = "none";
+          entry.classList.remove("fade-in");
+        }
+      });
+    }
+
+    // カテゴリでフィルタリング（フェードインつき）
+    function filterByCategory(category) {
+      welcome.style.display = "none";
+      entriesContainer.style.display = "block";
+
+      entries.forEach(entry => {
+        if (entry.dataset.category === category) {
+          entry.style.display = "block";
+          entry.classList.add("fade-in");
+        } else {
+          entry.style.display = "none";
+          entry.classList.remove("fade-in");
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
