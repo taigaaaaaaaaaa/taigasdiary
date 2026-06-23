@@ -11,6 +11,7 @@ body {
   padding: 20px;
   border-right: 1px solid #ddd;
   overflow-y: auto;
+  transition: transform 0.3s ease;
 }
 
 .sidebar h2 {
@@ -73,18 +74,46 @@ body {
     opacity: 1;
   }
 }
-/* スマホ対応（画面幅600px以下） */
+
+/* ハンバーガーメニューのボタン */
+#menu-button {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 2000;
+}
+
+/* スマホ対応（600px以下） */
 @media (max-width: 600px) {
 
+  #menu-button {
+    display: block;
+  }
+
   body {
-    flex-direction: column; /* 横並び → 縦並び */
+    flex-direction: column;
     height: auto;
   }
 
+  /*  sidebar を左に隠す */
   .sidebar {
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 220px;
+    transform: translateX(-250px);
     border-right: none;
     border-bottom: 1px solid #ddd;
+    z-index: 1500;
+  }
+
+  /*  open クラスで表示 */
+  .sidebar.open {
+    transform: translateX(0);
   }
 
   .content {
@@ -99,52 +128,5 @@ body {
   .entry {
     padding-bottom: 20px;
     margin-bottom: 30px;
-  }
-}
-/* ハンバーガーメニューのボタン */
-#menu-button {
-  display: none; /* PCでは非表示 */
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  font-size: 28px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-/* スマホ用メニュー（非表示状態） */
-.sidebar {
-  transition: transform 0.3s ease;
-}
-
-/* スマホ対応 */
-@media (max-width: 600px) {
-
-  #menu-button {
-    display: block; /* スマホで表示 */
-  }
-
-  body {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 220px;
-    background: #f5f5f5;
-    transform: translateX(-250px); /* 左に隠す */
-    z-index: 999;
-  }
-
-  .sidebar.open {
-    transform: translateX(0); /* 横からスッと出る */
-  }
-
-  .content {
-    padding: 20px;
-    max-width: 100%;
   }
 }
