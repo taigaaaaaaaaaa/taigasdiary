@@ -166,3 +166,27 @@ overlay.onclick = () => {
 document.querySelectorAll(".sidebar a").forEach(a => {
   a.onclick = () => closeMenu();
 });
+const themeToggle = document.getElementById("theme-toggle");
+const knob = document.querySelector(".knob");
+
+//ダークモード関連
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+  knob.textContent = "☀️";
+} else {
+  knob.textContent = "🌙";
+}
+
+// スイッチを押したとき
+themeToggle.onclick = () => {
+  document.body.classList.toggle("dark");
+
+  if (document.body.classList.contains("dark")) {
+    knob.textContent = "☀️";
+    localStorage.setItem("theme", "dark");
+  } else {
+    knob.textContent = "🌙";
+    localStorage.setItem("theme", "light");
+  }
+};
+//ここまでダークモード関連
