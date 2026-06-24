@@ -1,3 +1,4 @@
+// 要素取得
 const entriesContainer = document.getElementById("entries");
 const archiveList = document.getElementById("archive-list");
 const categoryList = document.getElementById("category-list");
@@ -8,7 +9,6 @@ const sidebar = document.querySelector(".sidebar");
 const overlay = document.getElementById("overlay");
 const themeToggle = document.getElementById("theme-toggle");
 const knob = document.querySelector(".knob");
-
 // JSON 読み込み
 fetch("diary.json")
   .then(res => res.json())
@@ -17,8 +17,7 @@ fetch("diary.json")
     generateArchive(data);
     generateCategories(data);
   });
-
-// 日記生成（id が無い場合は date を使う）
+// 日記生成（id が無い場合は date を使う
 function generateEntries(data) {
   data.forEach(entry => {
     const id = entry.id || entry.date;
@@ -36,8 +35,7 @@ function generateEntries(data) {
     entriesContainer.appendChild(div);
   });
 }
-
-// アーカイブ生成
+// アーカイブ生成（←ここで closeMenu を付ける
 function generateArchive(data) {
   data.forEach(entry => {
     const id = entry.id || entry.date;
@@ -46,14 +44,16 @@ function generateArchive(data) {
     const a = document.createElement("a");
 
     a.textContent = entry.date;
-    a.onclick = () => showEntry(id);
+    a.onclick = () => {
+      showEntry(id);
+      closeMenu(); // ← スマホで閉じる
+    };
 
     li.appendChild(a);
     archiveList.appendChild(li);
   });
 }
-
-// カテゴリ生成
+// カテゴリ生成（←ここで closeMenu を付ける
 function generateCategories(data) {
   const categories = new Set(data.map(e => e.category));
 
@@ -62,14 +62,16 @@ function generateCategories(data) {
     const a = document.createElement("a");
 
     a.textContent = cat;
-    a.onclick = () => filterByCategory(cat);
+    a.onclick = () => {
+      filterByCategory(cat);
+      closeMenu(); 
+    };
 
     li.appendChild(a);
     categoryList.appendChild(li);
   });
 }
-
-// 日記1つだけ表示
+// 日記1つだけ表
 function showEntry(id) {
   welcome.style.display = "none";
   entriesContainer.style.display = "block";
@@ -84,8 +86,7 @@ function showEntry(id) {
     }
   });
 }
-
-// カテゴリでフィルタリング
+// カテゴリでフィルタリン
 function filterByCategory(category) {
   welcome.style.display = "none";
   entriesContainer.style.display = "block";
@@ -100,15 +101,13 @@ function filterByCategory(category) {
     }
   });
 }
-
-// TOP ボタン
+// TOP ボタ
 topButton.onclick = () => {
   welcome.style.display = "block";
   entriesContainer.style.display = "none";
   closeMenu();
 };
-
-// ハンバーガーメニュー
+// ハンバーガーメニュ
 menuButton.onclick = () => {
   sidebar.classList.add("open");
   overlay.classList.add("show");
@@ -120,13 +119,7 @@ function closeMenu() {
 }
 
 overlay.onclick = closeMenu;
-
-// サイドバーのリンクを押したら閉じる
-document.querySelectorAll("#archive-list a, #category-list a").forEach(a => {
-  a.addEventListener("click", closeMenu);
-});
-
-// ダークモード（iOS風スイッチ）
+// ダークモード（iOS風スイッチ
 if (localStorage.getItem("theme") === "dark") {
   document.body.classList.add("dark");
   knob.textContent = "☀️";
