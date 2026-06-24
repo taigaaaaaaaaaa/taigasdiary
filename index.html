@@ -7,22 +7,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
 <!-- ダークモード切り替えスイッチ -->
 <div id="theme-toggle" class="switch">
   <div class="knob"></div>
 </div>
- <!-- ハンバーガーメニュー（スマホ用）-->
- <div id="menu-button">☰</div>
- <div id="overlay"></div>
-  <div class="sidebar">
-    <!-- 全端末共通-->
-    <h2>アーカイブ</h2>
-    <ul id="archive-list"></ul>
-    <h2>カテゴリ</h2>
-    <ul id="category-list"></ul>
-  </div>
- <div class="content">
-    <div class="sidebar">
+
+<!-- ハンバーガーメニュー（スマホ用）-->
+<div id="menu-button">☰</div>
+<div id="overlay"></div>
+
+<!-- 全機種共通　-->
+<div class="sidebar">
   <h2>メニュー</h2>
   <ul>
     <li><a id="top-button">TOP</a></li>
@@ -35,25 +31,27 @@
   <ul id="category-list"></ul>
 </div>
 
+<!-- コンテンツ -->
+<div class="content">
 
-    <!-- 最初に表示されるウェルカムページ -->
- <div id="welcome">
-      <h1>たいがの日記置き場へようこそ</h1>
-         <p>
-         左のアーカイブやカテゴリから日記を選んでね。<br>
-         ほんとに日記を書いてるだけのサイトです。<br>
-         webに関しての勉強も兼ねてます。<br>
-         コードはすべて自分で書きました。<br>
-         githubにコード載ってます↓<br>
-         <a href="https://github.com/taigaaaaaaaaaa/taigasdiary" target="_blank">
-         https://github.com/taigaaaaaaaaaa/taigasdiary
-         </a>
-         </p>
-    </div>
+  <!-- 最初に表示されるウェルカムページ -->
+  <div id="welcome">
+    <h1>たいがの日記置き場へようこそ</h1>
+    <p>
+      左のアーカイブやカテゴリから日記を選んでね。<br>
+      ほんとに日記を書いてるだけのサイトです。<br>
+      webに関しての勉強も兼ねてます。<br>
+      コードはすべて自分で書きました。<br>
+      githubにコード載ってます↓<br>
+      <a href="https://github.com/taigaaaaaaaaaa/taigasdiary" target="_blank">
+        https://github.com/taigaaaaaaaaaa/taigasdiary
+      </a>
+    </p>
+  </div>
 
   <div id="entries" style="display:none;"></div>
 
-  </div>
+</div>
 
 <script src="script.js"></script>
 
