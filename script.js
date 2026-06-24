@@ -9,6 +9,7 @@ const sidebar = document.querySelector(".sidebar");
 const overlay = document.getElementById("overlay");
 const themeToggle = document.getElementById("theme-toggle");
 const knob = document.querySelector(".knob");
+
 // JSON 読み込み
 fetch("diary.json")
   .then(res => res.json())
@@ -17,7 +18,8 @@ fetch("diary.json")
     generateArchive(data);
     generateCategories(data);
   });
-// 日記生成（id が無い場合は date を使う
+
+// 日記生成（id が無い場合は date を使う）
 function generateEntries(data) {
   data.forEach(entry => {
     const id = entry.id || entry.date;
@@ -35,43 +37,68 @@ function generateEntries(data) {
     entriesContainer.appendChild(div);
   });
 }
-// アーカイブ生成（←ここで closeMenu を付ける
+
+// アーカイブ生成（件数表示 + スマホで閉じる）
 function generateArchive(data) {
+  const dateCount = {};
+
+  // 日付ごとの件数をカウント
+  data.forEach(entry => {
+    const date = entry.date;
+    dateCount[date] = (dateCount[date] || 0) + 1;
+  });
+
+  // アーカイブ生成
   data.forEach(entry => {
     const id = entry.id || entry.date;
+    const date = entry.date;
+    const count = dateCount[date];
 
     const li = document.createElement("li");
     const a = document.createElement("a");
 
-    a.textContent = entry.date;
+    a.textContent = count > 1 ? `${date} (${count})` : date;
+
     a.onclick = () => {
       showEntry(id);
-      closeMenu(); // ← スマホで閉じる
+      closeMenu();
     };
 
     li.appendChild(a);
     archiveList.appendChild(li);
   });
 }
-// カテゴリ生成（←ここで closeMenu を付ける
-function generateCategories(data) {
-  const categories = new Set(data.map(e => e.category));
 
-  categories.forEach(cat => {
+// カテゴリ生成（件数表示 + スマホで閉じる）
+function generateCategories(data) {
+  const categoryCount = {};
+
+  // カテゴリごとの件数をカウント
+  data.forEach(entry => {
+    const cat = entry.category;
+    categoryCount[cat] = (categoryCount[cat] || 0) + 1;
+  });
+
+  // カテゴリ生成
+  Object.keys(categoryCount).forEach(cat => {
+    const count = categoryCount[cat];
+
     const li = document.createElement("li");
     const a = document.createElement("a");
 
-    a.textContent = cat;
+    a.textContent = count > 1 ? `${cat} (${count})` : cat;
+
     a.onclick = () => {
       filterByCategory(cat);
-      closeMenu(); 
+      closeMenu();
     };
 
     li.appendChild(a);
     categoryList.appendChild(li);
   });
 }
-// 日記1つだけ表
+
+// 日記1つだけ表示
 function showEntry(id) {
   welcome.style.display = "none";
   entriesContainer.style.display = "block";
@@ -86,7 +113,8 @@ function showEntry(id) {
     }
   });
 }
-// カテゴリでフィルタリン
+
+// カテゴリでフィルタリング
 function filterByCategory(category) {
   welcome.style.display = "none";
   entriesContainer.style.display = "block";
@@ -101,13 +129,15 @@ function filterByCategory(category) {
     }
   });
 }
-// TOP ボタ
+
+// TOP ボタン
 topButton.onclick = () => {
   welcome.style.display = "block";
   entriesContainer.style.display = "none";
   closeMenu();
 };
-// ハンバーガーメニュ
+
+// ハンバーガーメニュー
 menuButton.onclick = () => {
   sidebar.classList.add("open");
   overlay.classList.add("show");
@@ -119,7 +149,8 @@ function closeMenu() {
 }
 
 overlay.onclick = closeMenu;
-// ダークモード（iOS風スイッチ
+
+// ダークモード（iOS風スイッチ）
 if (localStorage.getItem("theme") === "dark") {
   document.body.classList.add("dark");
   knob.textContent = "☀️";
