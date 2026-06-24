@@ -38,7 +38,7 @@ function generateEntries(data) {
   });
 }
 
-// アーカイブ生成（件数表示 + スマホで閉じる）
+// アーカイブ生成（件数表示 + 日付ごとに1行）
 function generateArchive(data) {
   const dateCount = {};
 
@@ -48,10 +48,8 @@ function generateArchive(data) {
     dateCount[date] = (dateCount[date] || 0) + 1;
   });
 
-  // アーカイブ生成
-  data.forEach(entry => {
-    const id = entry.id || entry.date;
-    const date = entry.date;
+  // 日付ごとに1行だけ作る
+  Object.keys(dateCount).forEach(date => {
     const count = dateCount[date];
 
     const li = document.createElement("li");
@@ -60,7 +58,7 @@ function generateArchive(data) {
     a.textContent = count > 1 ? `${date} (${count})` : date;
 
     a.onclick = () => {
-      showEntry(id);
+      filterByDate(date);
       closeMenu();
     };
 
@@ -69,7 +67,25 @@ function generateArchive(data) {
   });
 }
 
-// カテゴリ生成（件数表示 + スマホで閉じる）
+// 同じ日付のエントリを全部表示
+function filterByDate(date) {
+  welcome.style.display = "none";
+  entriesContainer.style.display = "block";
+
+  document.querySelectorAll(".entry").forEach(entry => {
+    const entryDate = entry.querySelector(".date").textContent;
+
+    if (entryDate === date) {
+      entry.style.display = "block";
+      entry.classList.add("fade-in");
+    } else {
+      entry.style.display = "none";
+      entry.classList.remove("fade-in");
+    }
+  });
+}
+
+// カテゴリ生成
 function generateCategories(data) {
   const categoryCount = {};
 
@@ -79,7 +95,7 @@ function generateCategories(data) {
     categoryCount[cat] = (categoryCount[cat] || 0) + 1;
   });
 
-  // カテゴリ生成
+  // カテゴリごとに1行だけ作る
   Object.keys(categoryCount).forEach(cat => {
     const count = categoryCount[cat];
 
@@ -95,22 +111,6 @@ function generateCategories(data) {
 
     li.appendChild(a);
     categoryList.appendChild(li);
-  });
-}
-
-// 日記1つだけ表示
-function showEntry(id) {
-  welcome.style.display = "none";
-  entriesContainer.style.display = "block";
-
-  document.querySelectorAll(".entry").forEach(entry => {
-    if (entry.id === id) {
-      entry.style.display = "block";
-      entry.classList.add("fade-in");
-    } else {
-      entry.style.display = "none";
-      entry.classList.remove("fade-in");
-    }
   });
 }
 
@@ -150,7 +150,7 @@ function closeMenu() {
 
 overlay.onclick = closeMenu;
 
-// ダークモード（iOS風スイッチ）
+// ダークモード
 if (localStorage.getItem("theme") === "dark") {
   document.body.classList.add("dark");
   knob.textContent = "☀️";
