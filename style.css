@@ -156,7 +156,6 @@ body.dark {
   background: #1e1e1e;
   color: #eee;
 }
-
 /* スイッチ本体 */
 .switch {
   position: fixed;
@@ -169,18 +168,23 @@ body.dark {
   cursor: pointer;
   z-index: 2000;
   transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  box-sizing: border-box;
 }
 
-/* スイッチの丸（ノブ） */
+/* ノブ（丸） */
 .switch .knob {
   width: 22px;
   height: 22px;
   background: white;
   border-radius: 50%;
-  position: relative;
-  top: 2px;
-  left: 2px;
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px; /* ← アイコン表示用 */
 }
 
 /* ダークモード時のスイッチ色 */
@@ -188,7 +192,7 @@ body.dark .switch {
   background: #4a4a4a;
 }
 
-/* ダークモード時のノブ位置（右側へスライド） */
+/* ダークモード時のノブ位置（右へスライド） */
 body.dark .switch .knob {
   transform: translateX(24px);
 }
