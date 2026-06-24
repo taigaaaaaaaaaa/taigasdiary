@@ -90,10 +90,79 @@ function filterByCategory(category) {
     }
   });
 }
+// ダークモード切り替え
+const themeToggle = document.getElementById("theme-toggle");
+
+// 保存されたテーマを読み込む
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
+
+// スイッチを押したとき
+themeToggle.onclick = () => {
+  document.body.classList.toggle("dark");
+
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("theme", "dark");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
+};
+//json の id が無い場合は date を id にするように変更
+function generateEntries(data) {
+  data.forEach(entry => {
+    const id = entry.id || entry.date;
+
+    const div = document.createElement("div");
+    div.className = "entry";
+    div.id = id;
+    div.dataset.category = entry.category;
+
+    div.innerHTML = `
+      <div class="date">${entry.date}</div>
+      <p>${entry.text}</p>
+    `;
+
+    entriesContainer.appendChild(div);
+  });
+}
+
+// TOP ボタン（ウェルカムページに戻る）
+const topButton = document.getElementById("top-button");
+
+topButton.onclick = () => {
+  // ウェルカムページを表示
+  welcome.style.display = "block";
+  entriesContainer.style.display = "none";
+
+  // メニューを閉じる（スマホ用）
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+};
+
 // ハンバーガーメニュー開閉
 const menuButton = document.getElementById("menu-button");
 const sidebar = document.querySelector(".sidebar");
+const overlay = document.getElementById("overlay");
 
+// メニューを開く
 menuButton.onclick = () => {
-  sidebar.classList.toggle("open");
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
 };
+
+// メニューを閉じる関数
+function closeMenu() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+}
+
+// オーバーレイを押したら閉じる
+overlay.onclick = () => {
+  closeMenu();
+};
+
+// サイドバーのリンクを押したら閉じる
+document.querySelectorAll(".sidebar a").forEach(a => {
+  a.onclick = () => closeMenu();
+});

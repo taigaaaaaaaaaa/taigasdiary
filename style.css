@@ -130,3 +130,91 @@ body {
     margin-bottom: 30px;
   }
 }
+/* 背景を暗くのとちょっとぼかすオーバーレイ */
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3); /* 少し暗くする */
+  backdrop-filter: blur(6px);  /* 背景ぼかし */
+  -webkit-backdrop-filter: blur(6px); /* スマホ用 */
+  z-index: 1400;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+#overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+/* ダークモード全体 */
+body.dark {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+/* スイッチ本体 */
+.switch {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  width: 50px;
+  height: 26px;
+  background: #ddd;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 2000;
+  transition: background 0.3s ease;
+}
+
+/* スイッチの丸（ノブ） */
+.switch .knob {
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+}
+
+/* ダークモード時のスイッチ色 */
+body.dark .switch {
+  background: #4a4a4a;
+}
+
+/* ダークモード時のノブ位置（右側へスライド） */
+body.dark .switch .knob {
+  transform: translateX(24px);
+}
+/* サイドバー（黒） */
+body.dark .sidebar {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark .sidebar a {
+  color: #ddd;
+}
+
+/* コンテンツ（黒） */
+body.dark .content {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+/* 日記の区切り線 */
+body.dark .entry {
+  border-bottom: 1px solid #555;
+}
+
+/* 日付 */
+body.dark .date {
+  color: #bbb;
+}
+/* ここまでダークモードのスタイル */
