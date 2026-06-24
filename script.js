@@ -121,8 +121,9 @@ function closeMenu() {
 
 overlay.onclick = closeMenu;
 
-document.querySelectorAll(".sidebar a").forEach(a => {
-  a.onclick = closeMenu;
+// サイドバーのリンクを押したら閉じる
+document.querySelectorAll("#archive-list a, #category-list a").forEach(a => {
+  a.addEventListener("click", closeMenu);
 });
 
 // ダークモード（iOS風スイッチ）
