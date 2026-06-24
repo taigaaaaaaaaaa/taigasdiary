@@ -19,7 +19,7 @@ fetch("diary.json")
     generateCategories(data);
   });
 
-// 日記生成（id が無い場合は date を使う）
+// 日記生成（カテゴリも表示）
 function generateEntries(data) {
   data.forEach(entry => {
     const id = entry.id || entry.date;
@@ -31,6 +31,7 @@ function generateEntries(data) {
 
     div.innerHTML = `
       <div class="date">${entry.date}</div>
+      <div class="category">カテゴリ：${entry.category}</div>
       <p>${entry.text}</p>
     `;
 
@@ -38,7 +39,7 @@ function generateEntries(data) {
   });
 }
 
-// アーカイブ生成（件数表示 + 日付ごとに1行）
+// アーカイブ生成（件数表示 + 日付ごと1行）
 function generateArchive(data) {
   const dateCount = {};
 
@@ -85,7 +86,7 @@ function filterByDate(date) {
   });
 }
 
-// カテゴリ生成
+// カテゴリ生成（件数表示 + カテゴリごと1行）
 function generateCategories(data) {
   const categoryCount = {};
 
