@@ -151,7 +151,7 @@ function closeMenu() {
 
 overlay.onclick = closeMenu;
 
-// ダークモード
+// ダークモード（iOS風スイッチ）
 if (localStorage.getItem("theme") === "dark") {
   document.body.classList.add("dark");
   knob.textContent = "☀️";
