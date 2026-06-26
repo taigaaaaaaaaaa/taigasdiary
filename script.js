@@ -178,3 +178,70 @@ themeToggle.addEventListener("click", () => {
   knob.textContent = isDark ? "☀️" : "🌙";
   localStorage.setItem("theme", isDark ? "dark" : "light");
 });
+
+/*
+jsonファイル横に長すぎるから、
+"id":"",
+"date":"",
+"category":"",
+"text":[
+  "a",
+  "b",
+  "c"
+]
+っていう形にしたい。だからちょっと仕様変えないといけない。
+多分33行目の
+// 日記生成（カテゴリも表示）
+function generateEntries(data) {
+  const fragment = document.createDocumentFragment();
+
+  data.forEach(entry => {
+    const id = entry.id || entry.date;
+
+    const div = document.createElement("div");
+    div.className = "entry";
+    div.id = id;
+    div.dataset.category = entry.category;
+
+    div.innerHTML = `
+      <div class="date">${entry.date}</div>
+      <div class="category">カテゴリ：${entry.category}</div>
+      <p>${entry.text}</p>
+    `;
+
+    fragment.appendChild(div);
+  });
+
+  entriesContainer.appendChild(fragment);
+}
+を
+  // 日記生成（カテゴリも表示）
+function generateEntries(data) {
+  const fragment = document.createDocumentFragment();
+
+  data.forEach(entry => {
+    const id = entry.id || entry.date;
+
+    const div = document.createElement("div");
+    div.className = "entry";
+    div.id = id;
+    div.dataset.category = entry.category;
+
+    const text = Array.isArray(entry.text)
+    ? entry.text.join("<br>")
+    : entry.text;
+
+    div.innerHTML = `
+      <div class="date">${entry.date}</div>
+      <div class="category">カテゴリ：${entry.category}</div>
+      <p>${entry.text}</p>
+    `;
+
+    fragment.appendChild(div);
+  });
+
+  entriesContainer.appendChild(fragment);
+}
+に変えたらいけるかもだけど、過去の日記をどうするのか問題あるからいったんここに書いとく
+あとちゃんと動くかもわかんないから
+*/
